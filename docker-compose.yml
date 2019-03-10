@@ -1,0 +1,42 @@
+version: '3'
+services:
+
+  db:
+    image: mysql:5.7.22
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=trello_db
+    ports:
+      - "3306:3306"
+    networks:
+      - trello_bridge
+    volumes:
+      - ./data/sql:/var/lib/mysql
+
+  backend:
+    build: ./backend
+    volumes:
+      - ./backend:/backend
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    networks:
+      - trello_bridge
+    command: python manage.py runserver 0.0.0.0:8000
+
+  frontend:
+    build: ./frontend
+    volumes:
+      - ./frontend:/frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - trello_bridge
+    command: npm start
+  
+networks:
+  trello_bridge:
+    external: true
