@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Icon, Form, Input, Checkbox, Button, Tabs, notification } from "antd";
+import { Icon, Form, Input, Button, Tabs, notification } from "antd";
 import axios from "axios";
 
 const TabPane = Tabs.TabPane;
